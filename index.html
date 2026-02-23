@@ -128,6 +128,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
   perspective:1000px;
   cursor:pointer;
   height:280px;
+  overflow:hidden;
+  border-radius:20px;
 }
 .flip-card-inner{
   position:relative;width:100%;height:100%;
@@ -137,24 +139,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
 .flip-card.flipped .flip-card-inner{transform:rotateY(180deg);}
 
 .flip-front,.flip-back{
-  position:absolute;top:0;left:0;right:0;bottom:0;
+  position:absolute;top:0;left:0;width:100%;height:100%;
   border-radius:20px;
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
-  padding:2rem;
+  padding:1.5rem;
   display:flex;flex-direction:column;
   border:1.5px solid rgba(255,255,255,.06);
   overflow:hidden;
+  box-sizing:border-box;
 }
 .flip-front{
   background:var(--card);
   justify-content:space-between;
 }
 .flip-back{
-  background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(236,72,153,.08),rgba(6,182,212,.1));
+  background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(236,72,153,.12),rgba(6,182,212,.14));
   transform:rotateY(180deg);
   justify-content:center;
-  border-color:rgba(168,85,247,.3);
+  align-items:center;
+  border-color:rgba(168,85,247,.4);
+  text-align:center;
 }
 /* Shimmer on front */
 .flip-front::after{
@@ -170,7 +175,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
   background:var(--grd);background-size:300%;animation:chrome-shift 3s ease infinite;
 }
 
-.flip-emoji{font-size:2.2rem;margin-bottom:.8rem;display:block;}
+.flip-emoji{font-size:1.8rem;margin-bottom:.6rem;display:block;}
 .flip-num{font-family:var(--m);font-size:.58rem;color:var(--neon);letter-spacing:3px;margin-bottom:.4rem;}
 .flip-title{font-size:1rem;font-weight:800;margin-bottom:.5rem;letter-spacing:.3px;}
 .flip-desc{font-size:.8rem;color:var(--dim);line-height:1.6;flex:1;}
@@ -179,11 +184,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
 .flip-hint::before{content:'↺';font-size:.9rem;color:var(--neon);animation:spin 3s linear infinite;display:inline-block;}
 
 /* BACK content */
-.flip-back-icon{font-size:3rem;margin-bottom:1rem;text-align:center;}
+.flip-back-icon{font-size:2.2rem;margin-bottom:.7rem;}
 .flip-back-title{font-size:1.1rem;font-weight:800;margin-bottom:.8rem;text-align:center;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 3s ease infinite;}
-.flip-back-body{font-size:.82rem;color:rgba(240,244,255,.75);line-height:1.8;text-align:center;}
+.flip-back-body{font-size:.75rem;color:rgba(240,244,255,.75);line-height:1.6;text-align:center;}
 .flip-back-stat{display:flex;flex-direction:column;align-items:center;gap:.3rem;margin-top:1.2rem;}
-.flip-back-stat-val{font-size:2rem;font-weight:800;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 3s ease infinite;}
+.flip-back-stat-val{font-size:1.4rem;font-weight:800;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 3s ease infinite;}
 .flip-back-stat-label{font-family:var(--m);font-size:.6rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;}
 .flip-back-close{font-family:var(--m);font-size:.58rem;color:rgba(168,85,247,.5);letter-spacing:2px;margin-top:1.2rem;text-align:center;}
 .flip-back-close::before{content:'↺ ';color:var(--neon);}
@@ -228,6 +233,20 @@ textarea.gb-input{resize:none;min-height:110px;}
 @keyframes ld{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-10px);opacity:1}}
 
 /* ── FOOTER ── */
+.socials{display:flex;justify-content:center;gap:1.2rem;margin:1.5rem 0;}
+.social-link{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.6rem 1.4rem;border-radius:100px;
+  font-family:var(--m);font-size:.65rem;font-weight:700;letter-spacing:2px;
+  text-decoration:none;border:1.5px solid rgba(255,255,255,.1);
+  color:var(--white);transition:all .3s;
+  background:rgba(255,255,255,.03);
+}
+.social-link:hover{transform:translateY(-3px);}
+.social-link.ig:hover{border-color:#e1306c;color:#e1306c;background:rgba(225,48,108,.08);box-shadow:0 8px 30px rgba(225,48,108,.25);}
+.social-link.fb:hover{border-color:#1877f2;color:#1877f2;background:rgba(24,119,242,.08);box-shadow:0 8px 30px rgba(24,119,242,.25);}
+.social-link.tt:hover{border-color:#69c9d0;color:#69c9d0;background:rgba(105,201,208,.08);box-shadow:0 8px 30px rgba(105,201,208,.25);}
+.social-link.gm:hover{border-color:#ea4335;color:#ea4335;background:rgba(234,67,53,.08);box-shadow:0 8px 30px rgba(234,67,53,.25);}
 footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
 .footer-name{font-size:1.5rem;font-weight:800;letter-spacing:-1px;margin-bottom:.5rem;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 5s ease infinite;}
 .footer-sub{font-family:var(--m);font-size:.65rem;color:var(--dim);letter-spacing:3px;}
@@ -312,6 +331,12 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
         <div class="hero-btns">
           <a href="#guestbook" class="btn-primary">✦ Leave a Message</a>
           <a href="#about" class="btn-sec">View Profile →</a>
+        </div>
+        <div class="socials" style="justify-content:flex-start;margin-top:1.5rem;">
+          <a class="social-link ig" href="https://www.instagram.com/drei.hospital/" target="_blank" rel="noopener">📸 Instagram</a>
+          <a class="social-link fb" href="https://www.facebook.com/AndreiNgBuhayMo.09" target="_blank" rel="noopener">👤 Facebook</a>
+          <a class="social-link tt" href="https://www.tiktok.com/@dree3ii" target="_blank" rel="noopener">🎵 TikTok</a>
+          <a class="social-link gm" href="mailto:andreipaulhospital@gmail.com">✉️ Gmail</a>
         </div>
       </div>
       <div class="holo-card" id="holoCard">
@@ -513,6 +538,20 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
   <footer>
     <div class="footer-name">ANDREI PAUL HOSPITAL</div>
     <div class="footer-sub">BSIT · ASIA PACIFIC COLLEGE · TAGUIG CITY · 2025</div>
+    <div class="socials">
+      <a class="social-link ig" href="https://www.instagram.com/drei.hospital/" target="_blank" rel="noopener">
+        📸 Instagram
+      </a>
+      <a class="social-link fb" href="https://www.facebook.com/AndreiNgBuhayMo.09" target="_blank" rel="noopener">
+        👤 Facebook
+      </a>
+      <a class="social-link tt" href="https://www.tiktok.com/@dree3ii" target="_blank" rel="noopener">
+        🎵 TikTok
+      </a>
+      <a class="social-link gm" href="mailto:andreipaulhospital@gmail.com">
+        ✉️ Gmail
+      </a>
+    </div>
   </footer>
 </div>
 
