@@ -6,11 +6,11 @@
 <title>Andrei Paul Hospital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono:wght@300;400;700&family=Clash+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono:wght@300;400;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 <style>
 :root{
-  --void:#020309;--void2:#050810;--neon:#a855f7;--neon2:#ec4899;--cyan:#06b6d4;
+  --void:#020309;--neon:#a855f7;--neon2:#ec4899;--cyan:#06b6d4;
   --gold:#f59e0b;--white:#f0f4ff;--dim:#4a5270;
   --card:rgba(255,255,255,0.03);--border:rgba(168,85,247,0.2);
   --s:'Syne',sans-serif;--m:'IBM Plex Mono',monospace;
@@ -19,9 +19,13 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--void);color:var(--white);font-family:var(--s);overflow-x:hidden;cursor:none;}
-#cur{position:fixed;width:36px;height:36px;border:1.5px solid rgba(168,85,247,0.6);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;mix-blend-mode:difference;}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:36px;height:36px;border:1.5px solid rgba(168,85,247,0.6);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;mix-blend-mode:difference;}
 #cur2{position:fixed;width:6px;height:6px;background:var(--neon);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-body:has(a:hover) #cur,body:has(button:hover) #cur{width:60px;height:60px;border-color:var(--neon2);}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:60px;height:60px;}
+
+/* ── BACKGROUND ── */
 .aurora{position:fixed;inset:0;z-index:0;overflow:hidden;}
 .aurora-orb{position:absolute;border-radius:50%;filter:blur(120px);animation:drift 12s ease-in-out infinite alternate;}
 .ao1{width:700px;height:700px;background:radial-gradient(circle,rgba(168,85,247,.18),transparent);top:-200px;left:-200px;animation-duration:14s;}
@@ -30,21 +34,27 @@ body:has(a:hover) #cur,body:has(button:hover) #cur{width:60px;height:60px;border
 .ao4{width:400px;height:400px;background:radial-gradient(circle,rgba(245,158,11,.1),transparent);bottom:20%;right:10%;animation-duration:13s;animation-delay:-9s;}
 @keyframes drift{0%{transform:translate(0,0) scale(1);}100%{transform:translate(40px,30px) scale(1.15);}}
 .stars{position:fixed;inset:0;z-index:0;}
-.stars::before,.stars::after{content:'';position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 80% 10%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 50% 60%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 10% 80%,rgba(255,255,255,.2) 0%,transparent 100%),radial-gradient(1px 1px at 90% 90%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 35% 15%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 65% 45%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 75% 75%,rgba(200,180,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 25% 55%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 88% 35%,rgba(255,255,255,.4) 0%,transparent 100%);background-size:600px 600px;animation:twinkle 6s ease-in-out infinite alternate;}
-.stars::after{background-size:400px 400px;animation-delay:-3s;animation-duration:8s;}
+.stars::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 80% 10%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 50% 60%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 10% 80%,rgba(255,255,255,.2) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 75% 75%,rgba(200,180,255,.5) 0%,transparent 100%);background-size:600px 600px;animation:twinkle 6s ease-in-out infinite alternate;}
 @keyframes twinkle{0%{opacity:.6}100%{opacity:1}}
+@keyframes drift2{0%{opacity:.6}100%{opacity:1}}
+
+/* ── INTRO ── */
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse-in{0%,100%{transform:scale(.8);opacity:.1}50%{transform:scale(1.1);opacity:.25}}
-@keyframes blink-cursor{50%{opacity:0}}
+@keyframes blink{50%{opacity:0}}
+@keyframes chrome-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 #intro{position:fixed;inset:0;z-index:2000;background:var(--void);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity 1s ease,visibility 1s;}
 #intro.gone{opacity:0;visibility:hidden;}
 .intro-ring{width:120px;height:120px;border-radius:50%;border:2px solid transparent;background:linear-gradient(var(--void),var(--void)) padding-box,linear-gradient(135deg,#a855f7,#ec4899,#06b6d4,#a855f7) border-box;animation:spin 2s linear infinite;display:flex;align-items:center;justify-content:center;}
 .intro-inner{width:80px;height:80px;border-radius:50%;background:var(--grd);opacity:.15;animation:pulse-in 1.5s ease infinite;}
-.intro-txt{font-family:var(--m);font-size:.75rem;letter-spacing:4px;color:var(--dim);text-transform:uppercase;animation:blink-cursor 1s step-end infinite;}
-.intro-txt::after{content:'_';color:var(--neon);}
-/* API BADGE */
+.intro-txt{font-family:var(--m);font-size:.75rem;letter-spacing:4px;color:var(--dim);text-transform:uppercase;}
+.intro-txt::after{content:'_';color:var(--neon);animation:blink 1s step-end infinite;}
+
+/* ── API BADGE ── */
 .api-badge{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;background:rgba(2,3,9,.9);border:1px solid rgba(168,85,247,.3);border-radius:100px;padding:.5rem 1rem;font-family:var(--m);font-size:.6rem;letter-spacing:2px;color:var(--dim);backdrop-filter:blur(10px);display:flex;align-items:center;gap:.5rem;}
-.api-dot{width:6px;height:6px;border-radius:50%;background:#34d399;animation:blink-cursor 1.5s step-end infinite;}
+.api-dot{width:6px;height:6px;border-radius:50%;background:#34d399;animation:blink 1.5s step-end infinite;}
+
+/* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3rem;background:rgba(2,3,9,.7);backdrop-filter:blur(30px) saturate(180%);border-bottom:1px solid var(--border);}
 .logo{font-family:var(--m);font-size:.9rem;font-weight:700;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;}
 .nav-links{display:flex;gap:2.5rem;list-style:none;}
@@ -52,93 +62,148 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--grd);transition:width .3s;}
 .nav-links a:hover{color:var(--white);}.nav-links a:hover::after{width:100%;}
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;}
-.ham span{width:22px;height:1.5px;background:var(--neon);display:block;transition:all .3s;}
+.ham span{width:22px;height:1.5px;background:var(--neon);display:block;}
 .mob-nav{display:none;position:fixed;top:61px;left:0;right:0;background:rgba(2,3,9,.95);backdrop-filter:blur(20px);padding:2rem 3rem;z-index:499;flex-direction:column;gap:1.5rem;border-bottom:1px solid var(--border);}
 .mob-nav.open{display:flex;}
 .mob-nav a{font-family:var(--m);font-size:.8rem;color:var(--white);text-decoration:none;letter-spacing:2px;padding-bottom:.8rem;border-bottom:1px solid var(--border);}
+
+/* ── HERO ── */
 #hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;padding:7rem 3rem 4rem;}
 .hero-inner{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 420px;gap:5rem;align-items:center;}
 .hero-eyebrow{font-family:var(--m);font-size:.7rem;letter-spacing:4px;color:var(--neon);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:.8rem;}
 .hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--grd);}
 .hero-name{font-size:clamp(3.5rem,7.5vw,7rem);font-weight:800;line-height:.9;letter-spacing:-2px;margin-bottom:2rem;}
 .chrome{display:block;background:linear-gradient(135deg,#ffffff 0%,#c084fc 20%,#ec4899 40%,#ffffff 55%,#06b6d4 70%,#a855f7 85%,#ffffff 100%);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:chrome-shift 6s ease infinite;}
-@keyframes chrome-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .hero-sub{font-size:1.1rem;color:var(--dim);line-height:1.7;margin-bottom:2.5rem;font-weight:400;max-width:480px;}
 .hero-sub strong{color:var(--white);font-weight:700;}
 .pill-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:3rem;}
 .pill{padding:.35rem 1rem;border-radius:100px;font-size:.65rem;font-family:var(--m);letter-spacing:1.5px;border:1px solid rgba(168,85,247,.3);background:rgba(168,85,247,.06);color:var(--neon);transition:all .3s;}
-.pill:hover{background:rgba(168,85,247,.15);border-color:var(--neon);transform:translateY(-2px);}
+.pill:hover{background:rgba(168,85,247,.15);transform:translateY(-2px);}
 .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
-.btn-primary{padding:.9rem 2.2rem;border-radius:100px;background:var(--grd);color:#fff;font-family:var(--m);font-size:.75rem;font-weight:700;letter-spacing:2px;border:none;cursor:none;text-decoration:none;display:inline-block;box-shadow:0 0 40px rgba(168,85,247,.4),0 0 80px rgba(168,85,247,.15);transition:transform .3s,box-shadow .3s;}
-.btn-primary:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 60px rgba(168,85,247,.6),0 0 100px rgba(168,85,247,.2);}
+.btn-primary{padding:.9rem 2.2rem;border-radius:100px;background:var(--grd);color:#fff;font-family:var(--m);font-size:.75rem;font-weight:700;letter-spacing:2px;border:none;cursor:none;text-decoration:none;display:inline-block;box-shadow:0 0 40px rgba(168,85,247,.4);transition:transform .3s,box-shadow .3s;}
+.btn-primary:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 60px rgba(168,85,247,.6);}
 .btn-sec{padding:.9rem 2.2rem;border-radius:100px;background:transparent;color:var(--white);font-family:var(--m);font-size:.75rem;font-weight:700;letter-spacing:2px;border:1.5px solid rgba(255,255,255,.15);cursor:none;text-decoration:none;display:inline-block;transition:all .3s;}
-.btn-sec:hover{border-color:var(--neon);color:var(--neon);background:rgba(168,85,247,.06);}
-.holo-card{position:relative;background:linear-gradient(145deg,rgba(168,85,247,.1),rgba(236,72,153,.05),rgba(6,182,212,.08));border:1.5px solid transparent;background-clip:padding-box;border-radius:24px;padding:2.5rem 2rem;overflow:hidden;transform-style:preserve-3d;transition:transform .1s;}
+.btn-sec:hover{border-color:var(--neon);color:var(--neon);}
+
+/* ── HOLO CARD ── */
+.holo-card{position:relative;background:linear-gradient(145deg,rgba(168,85,247,.1),rgba(236,72,153,.05),rgba(6,182,212,.08));border:1.5px solid transparent;border-radius:24px;padding:2.5rem 2rem;overflow:hidden;transform-style:preserve-3d;transition:transform .1s;}
 .holo-card::before{content:'';position:absolute;inset:-2px;border-radius:26px;z-index:-1;background:linear-gradient(135deg,#a855f7,#ec4899,#06b6d4,#f59e0b,#a855f7);background-size:400% 400%;animation:border-grd 4s ease infinite;}
-.holo-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.05) 0%,transparent 40%,rgba(168,85,247,.05) 100%);border-radius:24px;pointer-events:none;}
 @keyframes border-grd{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .holo-sheen{position:absolute;inset:0;border-radius:24px;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);background-size:200% 100%;animation:sheen 3s ease-in-out infinite;pointer-events:none;}
 @keyframes sheen{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .card-avatar{width:100%;aspect-ratio:1/1;border-radius:16px;background:linear-gradient(135deg,#1a0533,#0d1a33,#001f2b);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;position:relative;overflow:hidden;}
-.card-initials{font-size:5rem;font-weight:800;letter-spacing:-3px;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300% 300%;animation:chrome-shift 4s ease infinite;}
+.card-initials{font-size:5rem;font-weight:800;letter-spacing:-3px;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 4s ease infinite;}
 .avatar-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .avatar-ring{position:absolute;border-radius:50%;border:1px solid;animation:expand-ring 3s linear infinite;opacity:0;}
-.avatar-ring:nth-child(1){width:80%;height:80%;border-color:rgba(168,85,247,.4);animation-delay:0s;}
+.avatar-ring:nth-child(1){width:80%;height:80%;border-color:rgba(168,85,247,.4);}
 .avatar-ring:nth-child(2){width:90%;height:90%;border-color:rgba(236,72,153,.3);animation-delay:1s;}
 .avatar-ring:nth-child(3){width:100%;height:100%;border-color:rgba(6,182,212,.2);animation-delay:2s;}
 @keyframes expand-ring{0%{transform:scale(.5);opacity:.8}100%{transform:scale(1.1);opacity:0}}
-.card-name{font-size:1rem;font-weight:800;letter-spacing:.5px;margin-bottom:.3rem;}
+.card-name{font-size:1rem;font-weight:800;margin-bottom:.3rem;}
 .card-role{font-family:var(--m);font-size:.65rem;color:var(--neon);letter-spacing:3px;margin-bottom:1.5rem;}
 .card-stats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
 .cstat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:.7rem;text-align:center;}
 .cstat-val{font-size:1.3rem;font-weight:800;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 4s ease infinite;display:block;}
 .cstat-label{font-family:var(--m);font-size:.55rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;}
+
+/* ── SECTIONS ── */
 .sec{position:relative;z-index:2;padding:7rem 3rem;}
 .sec-inner{max-width:1280px;margin:0 auto;}
 .sec-tag{font-family:var(--m);font-size:.65rem;letter-spacing:4px;color:var(--neon);text-transform:uppercase;margin-bottom:.6rem;}
-.sec-title{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:3.5rem;}
+.sec-title{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:.8rem;}
 .sec-title em{background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 4s ease infinite;font-style:normal;}
-.divider-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(168,85,247,.3),rgba(236,72,153,.3),rgba(6,182,212,.3),transparent);margin:0 auto;}
-.about-grid{display:grid;grid-template-columns:3fr 2fr;gap:5rem;align-items:start;}
-.about-lead{font-size:1.15rem;line-height:1.9;color:rgba(240,244,255,.7);margin-bottom:1.5rem;font-weight:400;}
-.about-lead strong{color:var(--white);font-weight:700;}
-.fact-grid{display:flex;flex-direction:column;gap:0;}
-.fact-row{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
-.fact-key{font-family:var(--m);font-size:.62rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;}
-.fact-val{font-size:.85rem;font-weight:700;color:var(--white);}
-.exp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
-.exp-card{position:relative;border-radius:20px;padding:2.2rem;background:var(--card);border:1.5px solid rgba(255,255,255,.06);overflow:hidden;cursor:default;transition:transform .4s cubic-bezier(.25,1,.5,1),box-shadow .4s;}
-.exp-card::before{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(168,85,247,.08),transparent 60%);transition:opacity .4s;pointer-events:none;}
-.exp-card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 1px rgba(168,85,247,.2);}
-.exp-card:hover::before{opacity:1;}
-.exp-icon-wrap{width:50px;height:50px;border-radius:14px;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:linear-gradient(135deg,rgba(168,85,247,.2),rgba(236,72,153,.2));border:1px solid rgba(168,85,247,.2);}
-.exp-num{font-family:var(--m);font-size:.6rem;color:var(--neon);letter-spacing:3px;margin-bottom:.5rem;}
-.exp-title{font-size:1.1rem;font-weight:800;margin-bottom:.6rem;letter-spacing:.5px;}
-.exp-desc{font-size:.85rem;color:var(--dim);line-height:1.7;}
-.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;gap:1rem;}
-.bento-cell{border-radius:20px;padding:2rem;background:var(--card);border:1.5px solid rgba(255,255,255,.06);display:flex;flex-direction:column;gap:1rem;cursor:default;transition:all .4s cubic-bezier(.25,1,.5,1);position:relative;overflow:hidden;}
-.bento-cell:hover{transform:scale(1.02);border-color:rgba(168,85,247,.3);}
-.bento-cell::after{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(circle at 50% 0%,rgba(168,85,247,.06),transparent 60%);pointer-events:none;}
-.bento-cell.wide{grid-column:span 2;}
-.bento-emoji{font-size:2.5rem;display:block;}
-.bento-name{font-size:1.1rem;font-weight:800;}
-.bento-desc{font-size:.8rem;color:var(--dim);line-height:1.6;}
-.bento-tag{font-family:var(--m);font-size:.6rem;letter-spacing:2px;padding:.3rem .7rem;border-radius:100px;display:inline-block;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);color:var(--neon);}
-.bento-cell.c1{--glow:rgba(168,85,247,.15);}.bento-cell.c2{--glow:rgba(236,72,153,.15);}.bento-cell.c3{--glow:rgba(6,182,212,.15);}.bento-cell.c4{--glow:rgba(245,158,11,.15);}.bento-cell.c5{--glow:rgba(168,85,247,.12);}
-.bento-cell:hover{box-shadow:0 20px 50px var(--glow,rgba(0,0,0,.3));}
-.goals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
-.goal-card{border-radius:18px;padding:1.8rem;background:var(--card);border:1.5px solid rgba(255,255,255,.05);display:flex;gap:1.2rem;align-items:flex-start;transition:all .3s;position:relative;overflow:hidden;cursor:default;}
-.goal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grd);background-size:300%;animation:chrome-shift 4s ease infinite;transform:scaleX(0);transform-origin:left;transition:transform .4s;}
-.goal-card:hover{transform:translateY(-5px);border-color:rgba(168,85,247,.25);background:rgba(168,85,247,.05);}
-.goal-card:hover::before{transform:scaleX(1);}
-.goal-num{font-size:2.5rem;font-weight:800;line-height:1;flex-shrink:0;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 4s ease infinite;opacity:.25;}
-.goal-text{font-size:.9rem;font-weight:700;line-height:1.5;padding-top:.4rem;}
+.sec-hint{font-family:var(--m);font-size:.65rem;color:var(--dim);letter-spacing:2px;margin-bottom:3rem;display:flex;align-items:center;gap:.5rem;}
+.sec-hint::before{content:'👆';font-size:.8rem;}
+.divider-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(168,85,247,.3),rgba(236,72,153,.3),rgba(6,182,212,.3),transparent);}
+
+/* ═══════════════════════════════════════
+   FLIP CARD SYSTEM
+═══════════════════════════════════════ */
+.flip-grid{display:grid;gap:1.2rem;}
+.flip-grid-2{grid-template-columns:repeat(2,1fr);}
+.flip-grid-3{grid-template-columns:repeat(3,1fr);}
+.flip-grid-4{grid-template-columns:repeat(4,1fr);}
+
+.flip-card{
+  perspective:1000px;
+  cursor:none;
+  min-height:220px;
+}
+.flip-card-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.4,0,.2,1);
+}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg);}
+
+/* TOUCH DRAG / TILT on hover */
+.flip-card:not(.flipped) .flip-card-inner:hover{
+  transform:rotateY(8deg) rotateX(-4deg) scale(1.02);
+}
+
+.flip-front,.flip-back{
+  position:absolute;inset:0;
+  border-radius:20px;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  padding:2rem;
+  display:flex;flex-direction:column;
+  border:1.5px solid rgba(255,255,255,.06);
+  overflow:hidden;
+}
+.flip-front{
+  background:var(--card);
+  justify-content:space-between;
+}
+.flip-back{
+  background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(236,72,153,.08),rgba(6,182,212,.1));
+  transform:rotateY(180deg);
+  justify-content:center;
+  border-color:rgba(168,85,247,.3);
+}
+/* Shimmer on front */
+.flip-front::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.04) 50%,transparent 60%);
+  background-size:200% 100%;
+  animation:sheen 4s ease-in-out infinite;
+  pointer-events:none;border-radius:20px;
+}
+/* Gradient top border on back */
+.flip-back::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--grd);background-size:300%;animation:chrome-shift 3s ease infinite;
+}
+
+.flip-emoji{font-size:2.2rem;margin-bottom:.8rem;display:block;}
+.flip-num{font-family:var(--m);font-size:.58rem;color:var(--neon);letter-spacing:3px;margin-bottom:.4rem;}
+.flip-title{font-size:1rem;font-weight:800;margin-bottom:.5rem;letter-spacing:.3px;}
+.flip-desc{font-size:.8rem;color:var(--dim);line-height:1.6;flex:1;}
+.flip-tag{font-family:var(--m);font-size:.58rem;letter-spacing:2px;padding:.3rem .8rem;border-radius:100px;display:inline-block;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);color:var(--neon);margin-top:.8rem;align-self:flex-start;}
+.flip-hint{font-family:var(--m);font-size:.58rem;color:rgba(168,85,247,.5);letter-spacing:2px;display:flex;align-items:center;gap:.3rem;margin-top:auto;padding-top:.8rem;}
+.flip-hint::before{content:'↺';font-size:.9rem;color:var(--neon);animation:spin 3s linear infinite;display:inline-block;}
+
+/* BACK content */
+.flip-back-icon{font-size:3rem;margin-bottom:1rem;text-align:center;}
+.flip-back-title{font-size:1.1rem;font-weight:800;margin-bottom:.8rem;text-align:center;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 3s ease infinite;}
+.flip-back-body{font-size:.82rem;color:rgba(240,244,255,.75);line-height:1.8;text-align:center;}
+.flip-back-stat{display:flex;flex-direction:column;align-items:center;gap:.3rem;margin-top:1.2rem;}
+.flip-back-stat-val{font-size:2rem;font-weight:800;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 3s ease infinite;}
+.flip-back-stat-label{font-family:var(--m);font-size:.6rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;}
+.flip-back-close{font-family:var(--m);font-size:.58rem;color:rgba(168,85,247,.5);letter-spacing:2px;margin-top:1.2rem;text-align:center;}
+.flip-back-close::before{content:'↺ ';color:var(--neon);}
+
+/* ABOUT special card */
+.about-flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
+.about-lead-card .flip-card{min-height:260px;}
+
+/* ── GUESTBOOK ── */
 #guestbook{background:rgba(168,85,247,.02);position:relative;z-index:2;padding:7rem 3rem;}
 .gb-inner{max-width:1280px;margin:0 auto;}
 .gb-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-.gb-form-card{border-radius:24px;padding:2.5rem;background:var(--card);border:1.5px solid rgba(168,85,247,.15);position:relative;overflow:hidden;}
+.gb-form-card{border-radius:24px;padding:2.5rem;background:var(--card);border:1.5px solid rgba(168,85,247,.15);position:relative;}
 .api-info{display:flex;align-items:center;gap:.6rem;margin-bottom:1.5rem;font-family:var(--m);font-size:.6rem;letter-spacing:2px;color:var(--dim);padding:.6rem 1rem;background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);border-radius:8px;}
-.api-info-dot{width:6px;height:6px;border-radius:50%;background:#34d399;flex-shrink:0;animation:blink-cursor 1.5s step-end infinite;}
+.api-info-dot{width:6px;height:6px;border-radius:50%;background:#34d399;flex-shrink:0;animation:blink 1.5s step-end infinite;}
 .api-info span{color:#34d399;}
 .gb-field{margin-bottom:1.2rem;}
 .gb-label{font-family:var(--m);font-size:.62rem;letter-spacing:2px;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:.5rem;}
@@ -151,9 +216,8 @@ textarea.gb-input{resize:none;min-height:110px;}
 .gb-btn:disabled{opacity:.4;}
 .gb-status{font-family:var(--m);font-size:.7rem;text-align:center;margin-top:.7rem;min-height:1em;}
 .gb-status.ok{color:#34d399;}.gb-status.err{color:#f87171;}
-.msgs-wrap{display:flex;flex-direction:column;gap:0;max-height:540px;overflow-y:auto;padding-right:6px;}
+.msgs-wrap{display:flex;flex-direction:column;max-height:540px;overflow-y:auto;padding-right:6px;}
 .msgs-wrap::-webkit-scrollbar{width:3px;}
-.msgs-wrap::-webkit-scrollbar-track{background:transparent;}
 .msgs-wrap::-webkit-scrollbar-thumb{background:linear-gradient(var(--neon),var(--neon2));border-radius:2px;}
 .msg{padding:1.2rem 0;border-bottom:1px solid rgba(255,255,255,.05);animation:msg-slide .5s ease;}
 @keyframes msg-slide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -167,31 +231,32 @@ textarea.gb-input{resize:none;min-height:110px;}
 .loader-dot:nth-child(2){animation-delay:.15s;background:var(--neon2);}
 .loader-dot:nth-child(3){animation-delay:.3s;background:var(--cyan);}
 @keyframes ld{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-10px);opacity:1}}
+
+/* ── FOOTER ── */
 footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px solid rgba(255,255,255,.05);}
 .footer-name{font-size:1.5rem;font-weight:800;letter-spacing:-1px;margin-bottom:.5rem;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 5s ease infinite;}
 .footer-sub{font-family:var(--m);font-size:.65rem;color:var(--dim);letter-spacing:3px;}
+
+/* ── SCROLL REVEAL ── */
 .sr{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
 .sr.in{opacity:1;transform:translateY(0);}
 .sr-d1{transition-delay:.1s}.sr-d2{transition-delay:.2s}.sr-d3{transition-delay:.3s}.sr-d4{transition-delay:.4s}
+
+/* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .hero-inner{grid-template-columns:1fr;gap:3rem;}
-  .about-grid{grid-template-columns:1fr;}
-  .exp-grid{grid-template-columns:1fr;}
-  .bento{grid-template-columns:repeat(2,1fr);}
-  .bento-cell.wide{grid-column:span 2;}
-  .goals-grid{grid-template-columns:1fr 1fr;}
+  .flip-grid-4{grid-template-columns:repeat(2,1fr);}
+  .flip-grid-3{grid-template-columns:repeat(2,1fr);}
+  .about-flip-grid{grid-template-columns:repeat(2,1fr);}
   .gb-grid{grid-template-columns:1fr;}
-  .nav-links{display:none;}
-  .ham{display:flex;}
+  .nav-links{display:none;}.ham{display:flex;}
 }
 @media(max-width:640px){
-  .sec{padding:5rem 1.5rem;}
-  #guestbook{padding:5rem 1.5rem;}
+  .sec,#guestbook{padding:5rem 1.5rem;}
   nav{padding:.9rem 1.5rem;}
   #hero{padding:6rem 1.5rem 4rem;}
-  .bento{grid-template-columns:1fr;}
-  .bento-cell.wide{grid-column:span 1;}
-  .goals-grid{grid-template-columns:1fr;}
+  .flip-grid-2,.flip-grid-3,.flip-grid-4{grid-template-columns:1fr;}
+  .about-flip-grid{grid-template-columns:1fr;}
   .hero-btns{flex-direction:column;}
   .btn-primary,.btn-sec{text-align:center;}
 }
@@ -200,18 +265,18 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
 <body>
 <div id="cur"></div>
 <div id="cur2"></div>
+
 <div id="app">
   <div id="intro" :class="{gone:introDone}">
     <div class="intro-ring"><div class="intro-inner"></div></div>
     <div class="intro-txt">{{ introText }}</div>
   </div>
+
   <div class="aurora">
     <div class="aurora-orb ao1"></div><div class="aurora-orb ao2"></div>
     <div class="aurora-orb ao3"></div><div class="aurora-orb ao4"></div>
   </div>
   <div class="stars"></div>
-
-  <!-- FLASK API BADGE -->
   <div class="api-badge"><div class="api-dot"></div>Flask API · Render.com</div>
 
   <nav>
@@ -233,6 +298,7 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
     <a href="#guestbook" @click="menuOpen=false">Guestbook</a>
   </div>
 
+  <!-- ═══ HERO ═══ -->
   <section id="hero">
     <div class="hero-inner">
       <div>
@@ -273,19 +339,29 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
 
   <div class="divider-line"></div>
 
+  <!-- ═══ ABOUT — FLIP CARDS ═══ -->
   <div class="sec" id="about">
     <div class="sec-inner">
       <p class="sec-tag sr">// 01 · Briefing</p>
       <h2 class="sec-title sr">About <em>The Player</em></h2>
-      <div class="about-grid">
-        <div class="sr sr-d1">
-          <p class="about-lead">I'm <strong>Andrei Paul F. Hospital</strong> — a 20-year-old <strong>BSIT student at Asia Pacific College</strong>, living in North Daang Hari, Taguig City. I'm the type of person who shows up, puts in the work, and doesn't stop until it's done right.</p>
-          <p class="about-lead">I graduated from <strong>Arellano University Jose Abad Santos Campus with Academic Honors</strong>. Now I'm leveling up at APC — pushing harder, learning faster, building real things.</p>
-          <p class="about-lead">Off-screen I'm on the basketball court, grinding ranked in Valorant, or watching the latest series. My goals are massive and I have zero intention of slowing down.</p>
-        </div>
-        <div class="fact-grid sr sr-d2">
-          <div class="fact-row" v-for="f in facts" :key="f.k">
-            <span class="fact-key">{{ f.k }}</span><span class="fact-val">{{ f.v }}</span>
+      <p class="sec-hint sr">Click any card to flip it!</p>
+      <div class="about-flip-grid sr">
+        <div class="flip-card" :class="{flipped:aboutFlipped[i]}" v-for="(a,i) in aboutCards" :key="i" @click="aboutFlipped[i]=!aboutFlipped[i]">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <div>
+                <div class="flip-emoji">{{ a.emoji }}</div>
+                <div class="flip-title">{{ a.front }}</div>
+                <div class="flip-desc">{{ a.frontDesc }}</div>
+              </div>
+              <div class="flip-hint">CLICK TO FLIP</div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-icon">{{ a.emoji }}</div>
+              <div class="flip-back-title">{{ a.backTitle }}</div>
+              <div class="flip-back-body">{{ a.back }}</div>
+              <div class="flip-back-close">CLICK TO FLIP BACK</div>
+            </div>
           </div>
         </div>
       </div>
@@ -294,16 +370,35 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
 
   <div class="divider-line"></div>
 
+  <!-- ═══ EXPERIENCE — FLIP CARDS ═══ -->
   <div class="sec" id="experience">
     <div class="sec-inner">
       <p class="sec-tag sr">// 02 · Achievement Log</p>
       <h2 class="sec-title sr">Experience &amp; <em>Background</em></h2>
-      <div class="exp-grid">
-        <div class="exp-card sr sr-d1" v-for="(e,i) in exps" :key="i" @mousemove="cardTilt($event,i)" @mouseleave="cardReset(i)" :ref="el => expRefs[i]=el">
-          <div class="exp-icon-wrap">{{ e.icon }}</div>
-          <div class="exp-num">ENTRY_{{ String(i+1).padStart(3,'0') }}</div>
-          <div class="exp-title">{{ e.title }}</div>
-          <p class="exp-desc">{{ e.desc }}</p>
+      <p class="sec-hint sr">Click any card to flip it!</p>
+      <div class="flip-grid flip-grid-2 sr">
+        <div class="flip-card" :class="{flipped:expFlipped[i]}" v-for="(e,i) in exps" :key="i" @click="expFlipped[i]=!expFlipped[i]">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <div>
+                <div class="flip-num">ENTRY_{{ String(i+1).padStart(3,'0') }}</div>
+                <div class="flip-emoji">{{ e.icon }}</div>
+                <div class="flip-title">{{ e.title }}</div>
+                <div class="flip-desc">{{ e.shortDesc }}</div>
+              </div>
+              <div class="flip-hint">CLICK TO FLIP</div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-icon">{{ e.icon }}</div>
+              <div class="flip-back-title">{{ e.title }}</div>
+              <div class="flip-back-body">{{ e.fullDesc }}</div>
+              <div class="flip-back-stat">
+                <span class="flip-back-stat-val">{{ e.stat }}</span>
+                <span class="flip-back-stat-label">{{ e.statLabel }}</span>
+              </div>
+              <div class="flip-back-close">CLICK TO FLIP BACK</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -311,42 +406,84 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
 
   <div class="divider-line"></div>
 
+  <!-- ═══ HOBBIES — FLIP CARDS ═══ -->
   <div class="sec" id="hobbies">
     <div class="sec-inner">
       <p class="sec-tag sr">// 03 · Idle Activities</p>
       <h2 class="sec-title sr">Hobbies &amp; <em>Interests</em></h2>
-      <div class="bento sr">
-        <div class="bento-cell wide c1"><span class="bento-emoji">🏀</span><div class="bento-name">Basketball</div><p class="bento-desc">The court is where I'm most alive. Fast breaks, big shots, and that pure feeling of a clean swish — nothing beats it.</p><span class="bento-tag">MAIN SPORT</span></div>
-        <div class="bento-cell c2"><span class="bento-emoji">🎮</span><div class="bento-name">Valorant</div><p class="bento-desc">Ranked grind never stops. Aim, strategy, teamwork.</p><span class="bento-tag">FPS GAMER</span></div>
-        <div class="bento-cell c3"><span class="bento-emoji">🏊</span><div class="bento-name">Swimming</div><p class="bento-desc">Pure focus. Just you and the water.</p><span class="bento-tag">ENDURANCE</span></div>
-        <div class="bento-cell c4"><span class="bento-emoji">🎬</span><div class="bento-name">Series &amp; Films</div><p class="bento-desc">A good story is everything. Binge mode always on.</p><span class="bento-tag">STORYTELLING</span></div>
-        <div class="bento-cell c5"><span class="bento-emoji">🏃</span><div class="bento-name">Jogging</div><p class="bento-desc">Clear the mind. Reset the grind. Move forward.</p><span class="bento-tag">ACTIVE</span></div>
+      <p class="sec-hint sr">Click any card to flip it!</p>
+      <div class="flip-grid flip-grid-4 sr">
+        <div class="flip-card" :class="{flipped:hobbyFlipped[i]}" v-for="(h,i) in hobbies" :key="i" @click="hobbyFlipped[i]=!hobbyFlipped[i]">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <div>
+                <div class="flip-emoji">{{ h.emoji }}</div>
+                <div class="flip-title">{{ h.name }}</div>
+                <div class="flip-desc">{{ h.front }}</div>
+              </div>
+              <div>
+                <div class="flip-tag">{{ h.tag }}</div>
+                <div class="flip-hint">CLICK TO FLIP</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-icon">{{ h.emoji }}</div>
+              <div class="flip-back-title">{{ h.name }}</div>
+              <div class="flip-back-body">{{ h.back }}</div>
+              <div class="flip-back-stat">
+                <span class="flip-back-stat-val">{{ h.level }}</span>
+                <span class="flip-back-stat-label">Skill Level</span>
+              </div>
+              <div class="flip-back-close">CLICK TO FLIP BACK</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="divider-line"></div>
 
+  <!-- ═══ GOALS — FLIP CARDS ═══ -->
   <div class="sec" id="goals">
     <div class="sec-inner">
       <p class="sec-tag sr">// 04 · Main Objectives</p>
       <h2 class="sec-title sr">Goals &amp; <em>Dreams</em></h2>
-      <div class="goals-grid">
-        <div class="goal-card sr" :class="'sr-d'+Math.min(i+1,4)" v-for="(g,i) in goals" :key="i">
-          <span class="goal-num">{{ String(i+1).padStart(2,'0') }}</span>
-          <span class="goal-text">{{ g }}</span>
+      <p class="sec-hint sr">Click any card to flip it!</p>
+      <div class="flip-grid flip-grid-3 sr">
+        <div class="flip-card" :class="{flipped:goalFlipped[i]}" v-for="(g,i) in goals" :key="i" @click="goalFlipped[i]=!goalFlipped[i]">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <div>
+                <div class="flip-num">GOAL_{{ String(i+1).padStart(2,'0') }}</div>
+                <div class="flip-emoji">{{ g.emoji }}</div>
+                <div class="flip-title">{{ g.title }}</div>
+              </div>
+              <div class="flip-hint">CLICK TO FLIP</div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-icon">{{ g.emoji }}</div>
+              <div class="flip-back-title">{{ g.title }}</div>
+              <div class="flip-back-body">{{ g.why }}</div>
+              <div class="flip-back-stat">
+                <span class="flip-back-stat-val">{{ g.priority }}</span>
+                <span class="flip-back-stat-label">Priority</span>
+              </div>
+              <div class="flip-back-close">CLICK TO FLIP BACK</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ═══ GUESTBOOK ═══ -->
   <section id="guestbook">
     <div class="gb-inner">
       <p class="sec-tag sr">// 05 · Communications</p>
       <h2 class="sec-title sr">Leave a <em>Message</em></h2>
       <div class="gb-grid">
         <div class="gb-form-card sr">
-          <!-- Shows professor this is using REST API -->
           <div class="api-info">
             <div class="api-info-dot"></div>
             REST API: Vue.js → <span>Flask (Render)</span> → Supabase DB
@@ -386,11 +523,7 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
 
 <script>
 const {createApp,ref,onMounted}=Vue;
-
-// ═══════════════════════════════════════════════
-// YOUR FLASK API URL — already set to your Render URL!
-// ═══════════════════════════════════════════════
-const API_URL = 'https://aph-guestbook-api.onrender.com';
+const API_URL='https://aph-guestbook-api.onrender.com';
 
 function initCursor(){
   const c=document.getElementById('cur'),d=document.getElementById('cur2');
@@ -398,13 +531,6 @@ function initCursor(){
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px';});
   (function loop(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;c.style.left=cx+'px';c.style.top=cy+'px';requestAnimationFrame(loop);})();
 }
-function tiltCard(el,e){
-  const r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-  const cx=r.width/2,cy=r.height/2,rx=(y-cy)/cy*10,ry=-(x-cx)/cx*10;
-  el.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px)`;
-  el.style.setProperty('--mx',x+'px');el.style.setProperty('--my',y+'px');
-}
-function resetCard(el){el.style.transform='';}
 function initHoloCard(){
   const card=document.getElementById('holoCard');if(!card)return;
   document.addEventListener('mousemove',e=>{
@@ -418,38 +544,109 @@ function initHoloCard(){
 createApp({
   setup(){
     const menuOpen=ref(false),introDone=ref(false),introText=ref('Loading profile');
-    const expRefs=ref([]);
     const messages=ref([]),loadingMsgs=ref(true);
     const form=ref({name:'',message:''}),submitting=ref(false),stMsg=ref(''),stType=ref('');
 
-    const facts=[
-      {k:'Full Name',v:'Andrei Paul F. Hospital'},{k:'Age',v:'20 years old'},
-      {k:'Location',v:'Taguig City, PH'},{k:'Course',v:'BSIT'},
-      {k:'School',v:'Asia Pacific College'},{k:'Honor',v:'Graduated With Honors'},
-      {k:'Status',v:'Active 🟢'},
-    ];
-    const exps=[
-      {icon:'🏢',title:'IBM Seminar',desc:'Attended an IBM-hosted industry seminar gaining deep insights into enterprise technology, cloud computing, and modern IT infrastructure.'},
-      {icon:'🪟',title:'Microsoft Sandbox',desc:"Participated in the Microsoft Sandbox program — hands-on exploration of Microsoft's cloud services, developer tools, and productivity ecosystem."},
-      {icon:'🔧',title:'Start-Up Mini Kit Build',desc:'Built a start-up mini hardware kit from scratch, applying real IT knowledge to create a functional technological solution.'},
-      {icon:'💻',title:'Full Stack Web Dev',desc:'Vue.js frontend calls a Flask REST API on Render.com, which connects to Supabase. Real full-stack architecture: GET & POST implemented.'},
-    ];
-    const goals=['Travel to every country in the world','Become financially independent & wealthy','Rise as a top-tier IT professional','Play basketball at a professional level','Own a Bugatti Mistral','Go Skydiving at least once'];
+    // Flip states
+    const aboutFlipped=ref([false,false,false]);
+    const expFlipped=ref([false,false,false,false]);
+    const hobbyFlipped=ref([false,false,false,false,false]);
+    const goalFlipped=ref([false,false,false,false,false,false]);
 
-    // ── GET /guestbook → calls Flask API on Render ──
+    const aboutCards=[
+      {
+        emoji:'🧑‍💻',front:'Who I Am',frontDesc:'BSIT student, Taguig City, 20 years old.',
+        backTitle:'The Full Story',back:'Andrei Paul F. Hospital — a 20-year-old BSIT student at Asia Pacific College. Born and raised in North Daang Hari, Taguig City. I show up every day, put in the work, and refuse to stop until everything is done right.'
+      },
+      {
+        emoji:'🎓',front:'Education',frontDesc:'Asia Pacific College + Arellano University honor graduate.',
+        backTitle:'Academic Journey',back:'Graduated from Arellano University Jose Abad Santos Campus with Academic Honors. Now continuing my journey at Asia Pacific College, where I\'m building real-world skills in IT — not just theory, but actual products.'
+      },
+      {
+        emoji:'🔥',front:'What Drives Me',frontDesc:'Massive goals, relentless mindset, zero excuses.',
+        backTitle:'The Motivation',back:'I want to travel the world, build wealth, play ball at a high level, and own a Bugatti Mistral. These aren\'t just dreams — they\'re targets. Every line of code, every hour of study, every rep is getting me closer.'
+      },
+    ];
+
+    const exps=[
+      {
+        icon:'🏢',title:'IBM Seminar',
+        shortDesc:'Enterprise tech insights from IBM.',
+        fullDesc:'Attended an IBM-hosted industry seminar covering enterprise technology, cloud computing infrastructure, and modern IT architecture. Got real exposure to how global-scale tech companies operate and build systems.',
+        stat:'IBM',statLabel:'Industry Leader'
+      },
+      {
+        icon:'🪟',title:'Microsoft Sandbox',
+        shortDesc:'Hands-on with Microsoft cloud & dev tools.',
+        fullDesc:'Participated in the Microsoft Sandbox program — immersive, hands-on exploration of Azure cloud services, Microsoft 365 developer tools, and the productivity ecosystem that powers millions of businesses worldwide.',
+        stat:'Azure',statLabel:'Cloud Platform'
+      },
+      {
+        icon:'🔧',title:'Start-Up Mini Kit',
+        shortDesc:'Built a working start-up mini hardware kit.',
+        fullDesc:'Designed and assembled a start-up mini hardware kit from scratch. Applied real IT knowledge to engineer a functional technological solution — proving that academic learning translates into actual, working products.',
+        stat:'✓ Built',statLabel:'From Scratch'
+      },
+      {
+        icon:'💻',title:'Full Stack Web Dev',
+        shortDesc:'Vue.js → Flask API → Supabase. Live on Vercel.',
+        fullDesc:'Built this personal website using a real full-stack architecture: Vue.js 3 frontend on Vercel calls a Flask REST API on Render.com, which reads and writes to a Supabase PostgreSQL database. GET and POST both implemented.',
+        stat:'3-Tier',statLabel:'Architecture'
+      },
+    ];
+
+    const hobbies=[
+      {
+        emoji:'🏀',name:'Basketball',tag:'MAIN SPORT',
+        front:'The court is my second home. Fast breaks, big shots, clean swishes.',
+        back:'Basketball is where I\'m most alive. Whether it\'s pickup games or competitive play, the court teaches discipline, teamwork, and how to perform under pressure — skills that carry into everything else.',
+        level:'⭐⭐⭐⭐⭐'
+      },
+      {
+        emoji:'🎮',name:'Valorant',tag:'FPS GAMER',
+        front:'Ranked grind. Aim, strategy, clutch moments.',
+        back:'Valorant sharpened my reaction time, strategic thinking, and ability to stay calm under pressure. Every ranked game is a mental challenge — read the situation, outthink the opponent, execute.',
+        level:'⭐⭐⭐⭐'
+      },
+      {
+        emoji:'🏊',name:'Swimming',tag:'ENDURANCE',
+        front:'Pure focus. Just you and the water.',
+        back:'Swimming is meditative. When you\'re in the water, there\'s nothing but you, your technique, and your breathing. It builds endurance, clears the mind, and resets everything.',
+        level:'⭐⭐⭐⭐'
+      },
+      {
+        emoji:'🎬',name:'Series & Films',tag:'STORYTELLING',
+        front:'Binge mode always on. A good story is everything.',
+        back:'I believe great storytelling changes how you see the world. Series and films train you to understand human behavior, narrative structure, and emotion — things that make you better at everything, including tech.',
+        level:'⭐⭐⭐⭐⭐'
+      },
+      {
+        emoji:'🏃',name:'Jogging',tag:'ACTIVE',
+        front:'Clear the mind. Reset the grind. Move forward.',
+        back:'Jogging is how I process everything. After a long session of coding or studying, a run clears the mental fog. Fresh air, open road, and a head full of new ideas every time I get back.',
+        level:'⭐⭐⭐'
+      },
+    ];
+
+    const goals=[
+      {emoji:'✈️',title:'Travel Worldwide',priority:'DREAM #1',why:'I want to see every country, every culture, every corner of this world. Travel is the ultimate education — no classroom can teach what real experience does.'},
+      {emoji:'💰',title:'Become Wealthy',priority:'MISSION',why:'Financial freedom means choices. I want to build generational wealth — not just for myself but for my family. The grind has a purpose.'},
+      {emoji:'💻',title:'Top IT Professional',priority:'CAREER',why:'I want to be the kind of developer that companies fight over. World-class skills, real products, and a reputation built on delivering results.'},
+      {emoji:'🏀',title:'Pro Basketball',priority:'SPORT GOAL',why:'Basketball is more than a hobby — it\'s a dream. Playing at a professional level demands everything you have. I\'m willing to give it.'},
+      {emoji:'🚗',title:'Own a Bugatti Mistral',priority:'FLEX GOAL',why:'The Bugatti Mistral is the ultimate symbol of excellence — only 99 exist in the world. Owning one means you reached a level most people only dream about.'},
+      {emoji:'🪂',title:'Go Skydiving',priority:'BUCKET LIST',why:'Jump out of a plane at 15,000 feet. Feel what it means to be truly alive with nothing between you and the earth but air. Non-negotiable.'},
+    ];
+
     async function fetchMsgs(){
       loadingMsgs.value=true;
       try{
         const res=await fetch(`${API_URL}/guestbook`);
         const json=await res.json();
         messages.value=json.success?json.data:[];
-      }catch(e){
-        console.error('GET error:',e);
-        messages.value=[];
-      }finally{loadingMsgs.value=false;}
+      }catch(e){messages.value=[];}
+      finally{loadingMsgs.value=false;}
     }
 
-    // ── POST /guestbook → calls Flask API on Render ──
     async function submitMsg(){
       if(!form.value.name.trim()||!form.value.message.trim())return;
       submitting.value=true;stMsg.value='';
@@ -462,19 +659,15 @@ createApp({
         const json=await res.json();
         if(json.success){
           if(json.data)messages.value.unshift(json.data);
-          stMsg.value='✓ Message sent successfully!';stType.value='ok';
+          stMsg.value='✓ Message sent!';stType.value='ok';
           form.value={name:'',message:''};
           setTimeout(()=>stMsg.value='',4000);
-        }else throw new Error(json.error||'Unknown error');
-      }catch(e){
-        console.error('POST error:',e);
-        stMsg.value='✗ Failed to send. Try again.';stType.value='err';
-      }finally{submitting.value=false;}
+        }else throw new Error(json.error);
+      }catch(e){stMsg.value='✗ Failed to send. Try again.';stType.value='err';}
+      finally{submitting.value=false;}
     }
 
     function fmtDate(iso){return new Date(iso).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});}
-    function cardTiltFn(e,i){const el=expRefs.value[i];if(el)tiltCard(el,e);}
-    function cardResetFn(i){const el=expRefs.value[i];if(el)resetCard(el);}
 
     function initReveal(){
       const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.08});
@@ -489,7 +682,15 @@ createApp({
 
     onMounted(()=>{initCursor();initHoloCard();runIntro();fetchMsgs();});
 
-    return{menuOpen,introDone,introText,facts,exps,goals,messages,loadingMsgs,form,submitting,stMsg,stType,expRefs,cardTilt:cardTiltFn,cardReset:cardResetFn,submitMsg,fmtDate};
+    return{
+      menuOpen,introDone,introText,
+      aboutCards,aboutFlipped,
+      exps,expFlipped,
+      hobbies,hobbyFlipped,
+      goals,goalFlipped,
+      messages,loadingMsgs,form,submitting,stMsg,stType,
+      submitMsg,fmtDate
+    };
   }
 }).mount('#app');
 </script>
