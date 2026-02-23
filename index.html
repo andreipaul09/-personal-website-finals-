@@ -16,6 +16,8 @@
   --s:'Syne',sans-serif;--m:'IBM Plex Mono',monospace;
   --grd:linear-gradient(135deg,#a855f7,#ec4899,#06b6d4);
 }
+
+[v-cloak]{display:none!important;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--void);color:var(--white);font-family:var(--s);overflow-x:hidden;cursor:none;}
@@ -298,10 +300,11 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
 <div id="cur"></div>
 <div id="cur2"></div>
 
-<div id="app">
+<noscript><style>#app{display:block!important}</style></noscript>
+<div id="app" v-cloak>
   <div id="intro" :class="{gone:introDone}">
     <div class="intro-ring"><div class="intro-inner"></div></div>
-    <div class="intro-txt">{{ introText }}</div>
+    <div class="intro-txt" v-text="introText">Loading profile</div>
   </div>
 
   <div class="aurora">
@@ -593,6 +596,12 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
 // making .value undefined and causing the TypeError.
 // reactive() objects stay reactive without needing .value.
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Safety: if Vue fails to load, show error
+window.addEventListener('error', function(e) {
+  document.getElementById('intro').style.display = 'none';
+});
+
+try {
 const {createApp, ref, reactive, onMounted} = Vue;
 const API_URL = 'https://aph-guestbook-api.onrender.com';
 
@@ -764,3 +773,4 @@ createApp({
       menuOpen, introDone, introText,
       aboutCards, aboutFlipped,
       exps, expFlipped,
+ 
