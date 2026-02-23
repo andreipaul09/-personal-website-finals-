@@ -36,7 +36,6 @@ body:has(a:hover) #cur,body:has(button:hover) #cur{width:60px;height:60px;}
 .stars{position:fixed;inset:0;z-index:0;}
 .stars::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 80% 10%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 50% 60%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 10% 80%,rgba(255,255,255,.2) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 75% 75%,rgba(200,180,255,.5) 0%,transparent 100%);background-size:600px 600px;animation:twinkle 6s ease-in-out infinite alternate;}
 @keyframes twinkle{0%{opacity:.6}100%{opacity:1}}
-@keyframes drift2{0%{opacity:.6}100%{opacity:1}}
 
 /* ── INTRO ── */
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -169,7 +168,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
   border-color:rgba(168,85,247,.6);
   text-align:center;
 }
-/* Shimmer on front */
 .flip-front::after{
   content:'';position:absolute;inset:0;
   background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.04) 50%,transparent 60%);
@@ -177,7 +175,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
   animation:sheen 4s ease-in-out infinite;
   pointer-events:none;border-radius:20px;
 }
-/* Gradient top border on back */
 .flip-back::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:var(--grd);background-size:300%;animation:chrome-shift 3s ease infinite;
@@ -191,7 +188,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
 .flip-hint{font-family:var(--m);font-size:.58rem;color:rgba(168,85,247,.5);letter-spacing:2px;display:flex;align-items:center;gap:.3rem;margin-top:auto;padding-top:.8rem;}
 .flip-hint::before{content:'↺';font-size:.9rem;color:var(--neon);animation:spin 3s linear infinite;display:inline-block;}
 
-/* BACK content */
 .flip-back-icon{font-size:2.2rem;margin-bottom:.7rem;}
 .flip-back-title{font-size:1.1rem;font-weight:800;margin-bottom:.8rem;text-align:center;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:chrome-shift 3s ease infinite;}
 .flip-back-body{font-size:.75rem;color:rgba(240,244,255,.75);line-height:1.6;text-align:center;}
@@ -201,7 +197,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
 .flip-back-close{font-family:var(--m);font-size:.58rem;color:rgba(168,85,247,.5);letter-spacing:2px;margin-top:1.2rem;text-align:center;}
 .flip-back-close::before{content:'↺ ';color:var(--neon);}
 
-/* ABOUT special card */
 .about-flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
 .about-flip-grid .flip-card{height:320px;}
 
@@ -547,197 +542,198 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
     <div class="footer-name">ANDREI PAUL HOSPITAL</div>
     <div class="footer-sub">BSIT · ASIA PACIFIC COLLEGE · TAGUIG CITY · 2025</div>
     <div class="socials">
-      <a class="social-link ig" href="https://www.instagram.com/drei.hospital/" target="_blank" rel="noopener">
-        📸 Instagram
-      </a>
-      <a class="social-link fb" href="https://www.facebook.com/AndreiNgBuhayMo.09" target="_blank" rel="noopener">
-        👤 Facebook
-      </a>
-      <a class="social-link tt" href="https://www.tiktok.com/@dree3ii" target="_blank" rel="noopener">
-        🎵 TikTok
-      </a>
-      <a class="social-link gm" href="mailto:andreipaulhospital@gmail.com">
-        ✉️ Gmail
-      </a>
+      <a class="social-link ig" href="https://www.instagram.com/drei.hospital/" target="_blank" rel="noopener">📸 Instagram</a>
+      <a class="social-link fb" href="https://www.facebook.com/AndreiNgBuhayMo.09" target="_blank" rel="noopener">👤 Facebook</a>
+      <a class="social-link tt" href="https://www.tiktok.com/@dree3ii" target="_blank" rel="noopener">🎵 TikTok</a>
+      <a class="social-link gm" href="mailto:andreipaulhospital@gmail.com">✉️ Gmail</a>
     </div>
   </footer>
 </div>
 
 <script>
-const {createApp,ref,onMounted}=Vue;
-const API_URL='https://aph-guestbook-api.onrender.com';
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// FIX: Use reactive() instead of ref() for flip state objects.
+// Vue 3 auto-unwraps refs in templates, so passing a ref to a
+// function receives the plain value — not the ref wrapper —
+// making .value undefined and causing the TypeError.
+// reactive() objects stay reactive without needing .value.
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const {createApp, ref, reactive, onMounted} = Vue;
+const API_URL = 'https://aph-guestbook-api.onrender.com';
 
-function initCursor(){
-  const c=document.getElementById('cur'),d=document.getElementById('cur2');
-  let mx=0,my=0,cx=0,cy=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px';});
-  (function loop(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;c.style.left=cx+'px';c.style.top=cy+'px';requestAnimationFrame(loop);})();
+function initCursor() {
+  const c = document.getElementById('cur'), d = document.getElementById('cur2');
+  let mx = 0, my = 0, cx = 0, cy = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; d.style.left = mx + 'px'; d.style.top = my + 'px'; });
+  (function loop() { cx += (mx - cx) * .12; cy += (my - cy) * .12; c.style.left = cx + 'px'; c.style.top = cy + 'px'; requestAnimationFrame(loop); })();
 }
-function initHoloCard(){
-  const card=document.getElementById('holoCard');if(!card)return;
-  document.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const dx=(e.clientX-(r.left+r.width/2))/window.innerWidth;
-    const dy=(e.clientY-(r.top+r.height/2))/window.innerHeight;
-    card.style.transform=`perspective(1200px) rotateY(${dx*15}deg) rotateX(${-dy*12}deg)`;
+
+function initHoloCard() {
+  const card = document.getElementById('holoCard'); if (!card) return;
+  document.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
+    const dy = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
+    card.style.transform = `perspective(1200px) rotateY(${dx * 15}deg) rotateX(${-dy * 12}deg)`;
   });
 }
 
 createApp({
-  setup(){
-    const menuOpen=ref(false),introDone=ref(false),introText=ref('Loading profile');
-    const messages=ref([]),loadingMsgs=ref(true);
-    const form=ref({name:'',message:''}),submitting=ref(false),stMsg=ref(''),stType=ref('');
+  setup() {
+    const menuOpen = ref(false), introDone = ref(false), introText = ref('Loading profile');
+    const messages = ref([]), loadingMsgs = ref(true);
+    const form = ref({name: '', message: ''}), submitting = ref(false), stMsg = ref(''), stType = ref('');
 
-    // Flip states — reactive objects for reliable Vue 3 reactivity
-    const aboutFlipped=ref({});
-    const expFlipped=ref({});
-    const hobbyFlipped=ref({});
-    const goalFlipped=ref({});
-    function toggle(obj,i){
-      // Spread into new object forces Vue reactivity
-      const current = obj.value[i] || false;
-      obj.value = Object.assign({}, obj.value, {[i]: !current});
+    // ✅ FIX: reactive() objects — no .value needed, toggle works directly
+    const aboutFlipped = reactive({});
+    const expFlipped = reactive({});
+    const hobbyFlipped = reactive({});
+    const goalFlipped = reactive({});
+
+    // ✅ FIX: Simple toggle — obj is already the reactive object (no .value)
+    function toggle(obj, i) {
+      obj[i] = !obj[i];
     }
 
-    const aboutCards=[
+    const aboutCards = [
       {
-        emoji:'🧑‍💻',front:'Who I Am',frontDesc:'BSIT student, Taguig City, 20 years old.',
-        backTitle:'The Full Story',back:'Andrei Paul F. Hospital — a 20-year-old BSIT student at Asia Pacific College. Born and raised in North Daang Hari, Taguig City. I show up every day, put in the work, and refuse to stop until everything is done right.'
+        emoji: '🧑‍💻', front: 'Who I Am', frontDesc: 'BSIT student, Taguig City, 20 years old.',
+        backTitle: 'The Full Story', back: 'Andrei Paul F. Hospital — a 20-year-old BSIT student at Asia Pacific College. Born and raised in North Daang Hari, Taguig City. I show up every day, put in the work, and refuse to stop until everything is done right.'
       },
       {
-        emoji:'🎓',front:'Education',frontDesc:'Asia Pacific College + Arellano University honor graduate.',
-        backTitle:'Academic Journey',back:'Graduated from Arellano University Jose Abad Santos Campus with Academic Honors. Now continuing my journey at Asia Pacific College, where I\'m building real-world skills in IT — not just theory, but actual products.'
+        emoji: '🎓', front: 'Education', frontDesc: 'Asia Pacific College + Arellano University honor graduate.',
+        backTitle: 'Academic Journey', back: "Graduated from Arellano University Jose Abad Santos Campus with Academic Honors. Now continuing my journey at Asia Pacific College, where I'm building real-world skills in IT — not just theory, but actual products."
       },
       {
-        emoji:'🔥',front:'What Drives Me',frontDesc:'Massive goals, relentless mindset, zero excuses.',
-        backTitle:'The Motivation',back:'I want to travel the world, build wealth, play ball at a high level, and own a Bugatti Mistral. These aren\'t just dreams — they\'re targets. Every line of code, every hour of study, every rep is getting me closer.'
-      },
-    ];
-
-    const exps=[
-      {
-        icon:'🏢',title:'IBM Seminar',
-        shortDesc:'Enterprise tech insights from IBM.',
-        fullDesc:'Attended an IBM-hosted industry seminar covering enterprise technology, cloud computing infrastructure, and modern IT architecture. Got real exposure to how global-scale tech companies operate and build systems.',
-        stat:'IBM',statLabel:'Industry Leader'
-      },
-      {
-        icon:'🪟',title:'Microsoft Sandbox',
-        shortDesc:'Hands-on with Microsoft cloud & dev tools.',
-        fullDesc:'Participated in the Microsoft Sandbox program — immersive, hands-on exploration of Azure cloud services, Microsoft 365 developer tools, and the productivity ecosystem that powers millions of businesses worldwide.',
-        stat:'Azure',statLabel:'Cloud Platform'
-      },
-      {
-        icon:'🔧',title:'Start-Up Mini Kit',
-        shortDesc:'Built a working start-up mini hardware kit.',
-        fullDesc:'Designed and assembled a start-up mini hardware kit from scratch. Applied real IT knowledge to engineer a functional technological solution — proving that academic learning translates into actual, working products.',
-        stat:'✓ Built',statLabel:'From Scratch'
-      },
-      {
-        icon:'💻',title:'Full Stack Web Dev',
-        shortDesc:'Vue.js → Flask API → Supabase. Live on Vercel.',
-        fullDesc:'Built this personal website using a real full-stack architecture: Vue.js 3 frontend on Vercel calls a Flask REST API on Render.com, which reads and writes to a Supabase PostgreSQL database. GET and POST both implemented.',
-        stat:'3-Tier',statLabel:'Architecture'
+        emoji: '🔥', front: 'What Drives Me', frontDesc: 'Massive goals, relentless mindset, zero excuses.',
+        backTitle: 'The Motivation', back: "I want to travel the world, build wealth, play ball at a high level, and own a Bugatti Mistral. These aren't just dreams — they're targets. Every line of code, every hour of study, every rep is getting me closer."
       },
     ];
 
-    const hobbies=[
+    const exps = [
       {
-        emoji:'🏀',name:'Basketball',tag:'MAIN SPORT',
-        front:'The court is my second home. Fast breaks, big shots, clean swishes.',
-        back:'Basketball is where I\'m most alive. Whether it\'s pickup games or competitive play, the court teaches discipline, teamwork, and how to perform under pressure — skills that carry into everything else.',
-        level:'⭐⭐⭐⭐⭐'
+        icon: '🏢', title: 'IBM Seminar',
+        shortDesc: 'Enterprise tech insights from IBM.',
+        fullDesc: 'Attended an IBM-hosted industry seminar covering enterprise technology, cloud computing infrastructure, and modern IT architecture. Got real exposure to how global-scale tech companies operate and build systems.',
+        stat: 'IBM', statLabel: 'Industry Leader'
       },
       {
-        emoji:'🎮',name:'Valorant',tag:'FPS GAMER',
-        front:'Ranked grind. Aim, strategy, clutch moments.',
-        back:'Valorant sharpened my reaction time, strategic thinking, and ability to stay calm under pressure. Every ranked game is a mental challenge — read the situation, outthink the opponent, execute.',
-        level:'⭐⭐⭐⭐'
+        icon: '🪟', title: 'Microsoft Sandbox',
+        shortDesc: 'Hands-on with Microsoft cloud & dev tools.',
+        fullDesc: 'Participated in the Microsoft Sandbox program — immersive, hands-on exploration of Azure cloud services, Microsoft 365 developer tools, and the productivity ecosystem that powers millions of businesses worldwide.',
+        stat: 'Azure', statLabel: 'Cloud Platform'
       },
       {
-        emoji:'🏊',name:'Swimming',tag:'ENDURANCE',
-        front:'Pure focus. Just you and the water.',
-        back:'Swimming is meditative. When you\'re in the water, there\'s nothing but you, your technique, and your breathing. It builds endurance, clears the mind, and resets everything.',
-        level:'⭐⭐⭐⭐'
+        icon: '🔧', title: 'Start-Up Mini Kit',
+        shortDesc: 'Built a working start-up mini hardware kit.',
+        fullDesc: 'Designed and assembled a start-up mini hardware kit from scratch. Applied real IT knowledge to engineer a functional technological solution — proving that academic learning translates into actual, working products.',
+        stat: '✓ Built', statLabel: 'From Scratch'
       },
       {
-        emoji:'🎬',name:'Series & Films',tag:'STORYTELLING',
-        front:'Binge mode always on. A good story is everything.',
-        back:'I believe great storytelling changes how you see the world. Series and films train you to understand human behavior, narrative structure, and emotion — things that make you better at everything, including tech.',
-        level:'⭐⭐⭐⭐⭐'
-      },
-      {
-        emoji:'🏃',name:'Jogging',tag:'ACTIVE',
-        front:'Clear the mind. Reset the grind. Move forward.',
-        back:'Jogging is how I process everything. After a long session of coding or studying, a run clears the mental fog. Fresh air, open road, and a head full of new ideas every time I get back.',
-        level:'⭐⭐⭐'
+        icon: '💻', title: 'Full Stack Web Dev',
+        shortDesc: 'Vue.js → Flask API → Supabase. Live on Vercel.',
+        fullDesc: 'Built this personal website using a real full-stack architecture: Vue.js 3 frontend on Vercel calls a Flask REST API on Render.com, which reads and writes to a Supabase PostgreSQL database. GET and POST both implemented.',
+        stat: '3-Tier', statLabel: 'Architecture'
       },
     ];
 
-    const goals=[
-      {emoji:'✈️',title:'Travel Worldwide',priority:'DREAM #1',why:'I want to see every country, every culture, every corner of this world. Travel is the ultimate education — no classroom can teach what real experience does.'},
-      {emoji:'💰',title:'Become Wealthy',priority:'MISSION',why:'Financial freedom means choices. I want to build generational wealth — not just for myself but for my family. The grind has a purpose.'},
-      {emoji:'💻',title:'Top IT Professional',priority:'CAREER',why:'I want to be the kind of developer that companies fight over. World-class skills, real products, and a reputation built on delivering results.'},
-      {emoji:'🏀',title:'Pro Basketball',priority:'SPORT GOAL',why:'Basketball is more than a hobby — it\'s a dream. Playing at a professional level demands everything you have. I\'m willing to give it.'},
-      {emoji:'🚗',title:'Own a Bugatti Mistral',priority:'FLEX GOAL',why:'The Bugatti Mistral is the ultimate symbol of excellence — only 99 exist in the world. Owning one means you reached a level most people only dream about.'},
-      {emoji:'🪂',title:'Go Skydiving',priority:'BUCKET LIST',why:'Jump out of a plane at 15,000 feet. Feel what it means to be truly alive with nothing between you and the earth but air. Non-negotiable.'},
+    const hobbies = [
+      {
+        emoji: '🏀', name: 'Basketball', tag: 'MAIN SPORT',
+        front: 'The court is my second home. Fast breaks, big shots, clean swishes.',
+        back: "Basketball is where I'm most alive. Whether it's pickup games or competitive play, the court teaches discipline, teamwork, and how to perform under pressure — skills that carry into everything else.",
+        level: '⭐⭐⭐⭐⭐'
+      },
+      {
+        emoji: '🎮', name: 'Valorant', tag: 'FPS GAMER',
+        front: 'Ranked grind. Aim, strategy, clutch moments.',
+        back: 'Valorant sharpened my reaction time, strategic thinking, and ability to stay calm under pressure. Every ranked game is a mental challenge — read the situation, outthink the opponent, execute.',
+        level: '⭐⭐⭐⭐'
+      },
+      {
+        emoji: '🏊', name: 'Swimming', tag: 'ENDURANCE',
+        front: 'Pure focus. Just you and the water.',
+        back: "Swimming is meditative. When you're in the water, there's nothing but you, your technique, and your breathing. It builds endurance, clears the mind, and resets everything.",
+        level: '⭐⭐⭐⭐'
+      },
+      {
+        emoji: '🎬', name: 'Series & Films', tag: 'STORYTELLING',
+        front: 'Binge mode always on. A good story is everything.',
+        back: 'I believe great storytelling changes how you see the world. Series and films train you to understand human behavior, narrative structure, and emotion — things that make you better at everything, including tech.',
+        level: '⭐⭐⭐⭐⭐'
+      },
+      {
+        emoji: '🏃', name: 'Jogging', tag: 'ACTIVE',
+        front: 'Clear the mind. Reset the grind. Move forward.',
+        back: 'Jogging is how I process everything. After a long session of coding or studying, a run clears the mental fog. Fresh air, open road, and a head full of new ideas every time I get back.',
+        level: '⭐⭐⭐'
+      },
     ];
 
-    async function fetchMsgs(){
-      loadingMsgs.value=true;
-      try{
-        const res=await fetch(`${API_URL}/guestbook`);
-        const json=await res.json();
-        messages.value=json.success?json.data:[];
-      }catch(e){messages.value=[];}
-      finally{loadingMsgs.value=false;}
+    const goals = [
+      {emoji: '✈️', title: 'Travel Worldwide', priority: 'DREAM #1', why: "I want to see every country, every culture, every corner of this world. Travel is the ultimate education — no classroom can teach what real experience does."},
+      {emoji: '💰', title: 'Become Wealthy', priority: 'MISSION', why: "Financial freedom means choices. I want to build generational wealth — not just for myself but for my family. The grind has a purpose."},
+      {emoji: '💻', title: 'Top IT Professional', priority: 'CAREER', why: "I want to be the kind of developer that companies fight over. World-class skills, real products, and a reputation built on delivering results."},
+      {emoji: '🏀', title: 'Pro Basketball', priority: 'SPORT GOAL', why: "Basketball is more than a hobby — it's a dream. Playing at a professional level demands everything you have. I'm willing to give it."},
+      {emoji: '🚗', title: 'Own a Bugatti Mistral', priority: 'FLEX GOAL', why: "The Bugatti Mistral is the ultimate symbol of excellence — only 99 exist in the world. Owning one means you reached a level most people only dream about."},
+      {emoji: '🪂', title: 'Go Skydiving', priority: 'BUCKET LIST', why: "Jump out of a plane at 15,000 feet. Feel what it means to be truly alive with nothing between you and the earth but air. Non-negotiable."},
+    ];
+
+    async function fetchMsgs() {
+      loadingMsgs.value = true;
+      try {
+        const res = await fetch(`${API_URL}/guestbook`);
+        const json = await res.json();
+        messages.value = json.success ? json.data : [];
+      } catch (e) { messages.value = []; }
+      finally { loadingMsgs.value = false; }
     }
 
-    async function submitMsg(){
-      if(!form.value.name.trim()||!form.value.message.trim())return;
-      submitting.value=true;stMsg.value='';
-      try{
-        const res=await fetch(`${API_URL}/guestbook`,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({name:form.value.name.trim(),message:form.value.message.trim()})
+    async function submitMsg() {
+      if (!form.value.name.trim() || !form.value.message.trim()) return;
+      submitting.value = true; stMsg.value = '';
+      try {
+        const res = await fetch(`${API_URL}/guestbook`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({name: form.value.name.trim(), message: form.value.message.trim()})
         });
-        const json=await res.json();
-        if(json.success){
-          if(json.data)messages.value.unshift(json.data);
-          stMsg.value='✓ Message sent!';stType.value='ok';
-          form.value={name:'',message:''};
-          setTimeout(()=>stMsg.value='',4000);
-        }else throw new Error(json.error);
-      }catch(e){stMsg.value='✗ Failed to send. Try again.';stType.value='err';}
-      finally{submitting.value=false;}
+        const json = await res.json();
+        if (json.success) {
+          if (json.data) messages.value.unshift(json.data);
+          stMsg.value = '✓ Message sent!'; stType.value = 'ok';
+          form.value = {name: '', message: ''};
+          setTimeout(() => stMsg.value = '', 4000);
+        } else throw new Error(json.error);
+      } catch (e) { stMsg.value = '✗ Failed to send. Try again.'; stType.value = 'err'; }
+      finally { submitting.value = false; }
     }
 
-    function fmtDate(iso){return new Date(iso).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});}
+    function fmtDate(iso) { return new Date(iso).toLocaleDateString('en-PH', {month: 'short', day: 'numeric', year: 'numeric'}); }
 
-    function initReveal(){
-      const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.08});
-      document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
-    }
-    function runIntro(){
-      const phrases=['Loading profile','Connecting to Flask API','Almost ready'];
-      let pi=0,li=0;
-      const iv=setInterval(()=>{li++;if(li%8===0){pi=(pi+1)%phrases.length;introText.value=phrases[pi];}},100);
-      setTimeout(()=>{clearInterval(iv);introDone.value=true;setTimeout(initReveal,300);},2200);
+    function initReveal() {
+      const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }); }, {threshold: .08});
+      document.querySelectorAll('.sr').forEach(el => obs.observe(el));
     }
 
-    onMounted(()=>{initCursor();initHoloCard();runIntro();fetchMsgs();});
+    function runIntro() {
+      const phrases = ['Loading profile', 'Connecting to Flask API', 'Almost ready'];
+      let pi = 0, li = 0;
+      const iv = setInterval(() => { li++; if (li % 8 === 0) { pi = (pi + 1) % phrases.length; introText.value = phrases[pi]; } }, 100);
+      setTimeout(() => { clearInterval(iv); introDone.value = true; setTimeout(initReveal, 300); }, 2200);
+    }
 
-    return{
-      menuOpen,introDone,introText,
-      aboutCards,aboutFlipped,
-      exps,expFlipped,
-      hobbies,hobbyFlipped,
-      goals,goalFlipped,
+    onMounted(() => { initCursor(); initHoloCard(); runIntro(); fetchMsgs(); });
+
+    return {
+      menuOpen, introDone, introText,
+      aboutCards, aboutFlipped,
+      exps, expFlipped,
+      hobbies, hobbyFlipped,
+      goals, goalFlipped,
       toggle,
-      messages,loadingMsgs,form,submitting,stMsg,stType,
-      submitMsg,fmtDate
+      messages, loadingMsgs, form, submitting, stMsg, stType,
+      submitMsg, fmtDate
     };
   }
 }).mount('#app');
