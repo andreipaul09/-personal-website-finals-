@@ -125,28 +125,35 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
 .flip-grid-4{grid-template-columns:repeat(4,1fr);}
 
 .flip-card{
-  perspective:1000px;
+  height:300px;
   cursor:pointer;
-  height:280px;
-  overflow:hidden;
-  border-radius:20px;
+  -webkit-perspective:1200px;
+  perspective:1200px;
 }
 .flip-card-inner{
-  position:relative;width:100%;height:100%;
+  position:relative;
+  width:100%;
+  height:100%;
+  -webkit-transform-style:preserve-3d;
   transform-style:preserve-3d;
-  transition:transform .7s cubic-bezier(.4,0,.2,1);
+  -webkit-transition:transform .65s cubic-bezier(.4,0,.2,1);
+  transition:transform .65s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
 }
-.flip-card.flipped .flip-card-inner{transform:rotateY(180deg);}
-
+.flip-card.flipped .flip-card-inner{
+  -webkit-transform:rotateY(180deg);
+  transform:rotateY(180deg);
+}
 .flip-front,.flip-back{
-  position:absolute;top:0;left:0;width:100%;height:100%;
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
   border-radius:20px;
-  backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
   padding:1.5rem;
-  display:flex;flex-direction:column;
+  display:flex;
+  flex-direction:column;
   border:1.5px solid rgba(255,255,255,.06);
-  overflow:hidden;
   box-sizing:border-box;
 }
 .flip-front{
@@ -154,11 +161,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
   justify-content:space-between;
 }
 .flip-back{
-  background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(236,72,153,.12),rgba(6,182,212,.14));
+  background:linear-gradient(135deg,rgba(30,0,60,.97),rgba(10,0,30,.97));
+  -webkit-transform:rotateY(180deg);
   transform:rotateY(180deg);
   justify-content:center;
   align-items:center;
-  border-color:rgba(168,85,247,.4);
+  border-color:rgba(168,85,247,.6);
   text-align:center;
 }
 /* Shimmer on front */
@@ -195,7 +203,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content
 
 /* ABOUT special card */
 .about-flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
-.about-flip-grid .flip-card{height:300px;}
+.about-flip-grid .flip-card{height:320px;}
 
 /* ── GUESTBOOK ── */
 #guestbook{background:rgba(168,85,247,.02);position:relative;z-index:2;padding:7rem 3rem;}
@@ -586,7 +594,11 @@ createApp({
     const expFlipped=ref({});
     const hobbyFlipped=ref({});
     const goalFlipped=ref({});
-    function toggle(obj,i){obj.value={...obj.value,[i]:!obj.value[i]};}
+    function toggle(obj,i){
+      // Spread into new object forces Vue reactivity
+      const current = obj.value[i] || false;
+      obj.value = Object.assign({}, obj.value, {[i]: !current});
+    }
 
     const aboutCards=[
       {
