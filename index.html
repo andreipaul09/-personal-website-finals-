@@ -341,7 +341,7 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
       <h2 class="sec-title sr">About <em>The Player</em></h2>
       <p class="sec-hint sr">Click any card to flip it!</p>
       <div class="about-flip-grid sr">
-        <div class="flip-card" :class="{flipped:aboutFlipped[i]}" v-for="(a,i) in aboutCards" :key="i" @click="aboutFlipped[i]=!aboutFlipped[i]">
+        <div class="flip-card" :class="{flipped:aboutFlipped[i]}" v-for="(a,i) in aboutCards" :key="i" @click="toggle(aboutFlipped,i)">
           <div class="flip-card-inner">
             <div class="flip-front">
               <div>
@@ -372,7 +372,7 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
       <h2 class="sec-title sr">Experience &amp; <em>Background</em></h2>
       <p class="sec-hint sr">Click any card to flip it!</p>
       <div class="flip-grid flip-grid-2 sr">
-        <div class="flip-card" :class="{flipped:expFlipped[i]}" v-for="(e,i) in exps" :key="i" @click="expFlipped[i]=!expFlipped[i]">
+        <div class="flip-card" :class="{flipped:expFlipped[i]}" v-for="(e,i) in exps" :key="i" @click="toggle(expFlipped,i)">
           <div class="flip-card-inner">
             <div class="flip-front">
               <div>
@@ -408,7 +408,7 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
       <h2 class="sec-title sr">Hobbies &amp; <em>Interests</em></h2>
       <p class="sec-hint sr">Click any card to flip it!</p>
       <div class="flip-grid flip-grid-4 sr">
-        <div class="flip-card" :class="{flipped:hobbyFlipped[i]}" v-for="(h,i) in hobbies" :key="i" @click="hobbyFlipped[i]=!hobbyFlipped[i]">
+        <div class="flip-card" :class="{flipped:hobbyFlipped[i]}" v-for="(h,i) in hobbies" :key="i" @click="toggle(hobbyFlipped,i)">
           <div class="flip-card-inner">
             <div class="flip-front">
               <div>
@@ -446,7 +446,7 @@ footer{position:relative;z-index:2;padding:3rem;text-align:center;border-top:1px
       <h2 class="sec-title sr">Goals &amp; <em>Dreams</em></h2>
       <p class="sec-hint sr">Click any card to flip it!</p>
       <div class="flip-grid flip-grid-3 sr">
-        <div class="flip-card" :class="{flipped:goalFlipped[i]}" v-for="(g,i) in goals" :key="i" @click="goalFlipped[i]=!goalFlipped[i]">
+        <div class="flip-card" :class="{flipped:goalFlipped[i]}" v-for="(g,i) in goals" :key="i" @click="toggle(goalFlipped,i)">
           <div class="flip-card-inner">
             <div class="flip-front">
               <div>
@@ -542,11 +542,12 @@ createApp({
     const messages=ref([]),loadingMsgs=ref(true);
     const form=ref({name:'',message:''}),submitting=ref(false),stMsg=ref(''),stType=ref('');
 
-    // Flip states
-    const aboutFlipped=ref([false,false,false]);
-    const expFlipped=ref([false,false,false,false]);
-    const hobbyFlipped=ref([false,false,false,false,false]);
-    const goalFlipped=ref([false,false,false,false,false,false]);
+    // Flip states — reactive objects for reliable Vue 3 reactivity
+    const aboutFlipped=ref({});
+    const expFlipped=ref({});
+    const hobbyFlipped=ref({});
+    const goalFlipped=ref({});
+    function toggle(obj,i){obj.value={...obj.value,[i]:!obj.value[i]};}
 
     const aboutCards=[
       {
@@ -683,6 +684,7 @@ createApp({
       exps,expFlipped,
       hobbies,hobbyFlipped,
       goals,goalFlipped,
+      toggle,
       messages,loadingMsgs,form,submitting,stMsg,stType,
       submitMsg,fmtDate
     };
